@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src\Sanet.Localization.Core\Sanet.Localization.Core.csproj" />
+  <Project Path="tests\Sanet.Localization.Tests\Sanet.Localization.Tests.csproj" />
+</Solution>

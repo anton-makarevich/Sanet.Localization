@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Sanet.Localization</AssemblyName>
+        <RootNamespace>Sanet.Localization</RootNamespace>
+        <PackageId>Sanet.Localization.Core</PackageId>
+        <Description>Culture-invariant localization engine for .NET: resource-agnostic ILocalizationService with language switching, aligned with the Sanet.MakaMek contract.</Description>
+        <PackageTags>localization;resources;resx;culture-invariant;sanet</PackageTags>
+        <PackageProjectUrl>https://github.com/anton-makarevich/Sanet.Localization</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/anton-makarevich/Sanet.Localization</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+</Project>

@@ -55,3 +55,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# JetBrains
+.idea
+Sanet.Localization.sln.DotSettings.user
+
+# Test tooling
+coverage/
