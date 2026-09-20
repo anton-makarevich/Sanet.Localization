@@ -62,3 +62,7 @@ Sanet.Localization.sln.DotSettings.user
 
 # Test tooling
 coverage/
+
+# AI
+.agents/skills
+.claude/skills
