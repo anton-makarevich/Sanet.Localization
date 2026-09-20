@@ -48,6 +48,29 @@ public class ResourceLocalizationServiceTests
     }
 
     [Fact]
+    public void SetActiveLanguage_WithUnknownLanguageCode_ShouldKeepActiveLanguageAndStrings()
+    {
+        _sut.SetActiveLanguage("be");
+        var localizedValue = _sut.GetString("TestKey");
+
+        Should.Throw<FileNotFoundException>(() => _sut.SetActiveLanguage("agr"));
+
+        _sut.ActiveLanguage.Code.ShouldBe("be");
+        _sut.GetString("TestKey").ShouldBe(localizedValue);
+    }
+
+    [Fact]
+    public void SetActiveLanguage_WithUnknownLanguageCode_ShouldNotRaiseLanguageChanged()
+    {
+        var raised = 0;
+        _sut.LanguageChanged += (_, _) => raised++;
+
+        Should.Throw<FileNotFoundException>(() => _sut.SetActiveLanguage("agr"));
+
+        raised.ShouldBe(0);
+    }
+
+    [Fact]
     public void SetActiveLanguage_WithUnavailableLanguage_ShouldThrowException()
     {
         var language = new Language("agr", false);

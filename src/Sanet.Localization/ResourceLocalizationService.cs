@@ -68,8 +68,12 @@ public class ResourceLocalizationService : ILocalizationService
 
     public void SetActiveLanguage(string languageCode)
     {
-        var language = Languages.FirstOrDefault(l => l.Code == languageCode)
-                       ?? new Language(languageCode, false);
+        var language = Languages.FirstOrDefault(l => l.Code == languageCode);
+        if (language == null)
+        {
+            throw new FileNotFoundException($"Resource file not found for language: {languageCode}");
+        }
+
         SetActiveLanguage(language);
     }
 
