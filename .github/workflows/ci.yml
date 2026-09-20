@@ -41,14 +41,6 @@ jobs:
       - name: Run tests
         run: mise run test
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7
-        with:
-          files: ./coverage/coverage.cobertura.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: localization-core
-          fail_ci_if_error: true
-
       - name: Generate diff coverage report
         id: report
         if: github.event_name == 'pull_request'
