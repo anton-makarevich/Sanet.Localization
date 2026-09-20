@@ -18,6 +18,7 @@ public class ResourceLocalizationService : ILocalizationService
     private readonly Assembly _resourceAssembly;
     private readonly string _resourceBaseName;
     private readonly string _defaultResourceName;
+    private readonly string[] _resourceNames;
     private Dictionary<string, string> _localizedStrings = new();
     private Dictionary<string, string> _defaultLocalizedStrings = new();
 
@@ -39,6 +40,11 @@ public class ResourceLocalizationService : ILocalizationService
         _resourceAssembly = resourceAssembly;
         _resourceBaseName = resourceBaseName;
         _defaultResourceName = $"{resourceBaseName}.resources";
+        _resourceNames =
+        [
+            .. _resourceAssembly.GetManifestResourceNames()
+                .Where(resourceName => resourceName.StartsWith(_resourceBaseName, StringComparison.OrdinalIgnoreCase))
+        ];
         Languages = GetAvailableLanguages();
         SetActiveLanguage(Languages.First(l => l.IsDefault));
     }
@@ -89,9 +95,7 @@ public class ResourceLocalizationService : ILocalizationService
             ? _defaultResourceName
             : $"{_resourceBaseName}-{language.Code}.resources";
 
-        var resourceNames = _resourceAssembly.GetManifestResourceNames();
-
-        var matchingResourceName = resourceNames.FirstOrDefault(resourceName =>
+        var matchingResourceName = _resourceNames.FirstOrDefault(resourceName =>
             resourceName.StartsWith(resourceFileName, StringComparison.OrdinalIgnoreCase));
 
         if (matchingResourceName == null)
@@ -121,11 +125,9 @@ public class ResourceLocalizationService : ILocalizationService
 
     private List<Language> GetAvailableLanguages()
     {
-        var resourceNames = _resourceAssembly.GetManifestResourceNames()
-            .Where(resourceName => resourceName.StartsWith(_resourceBaseName, StringComparison.OrdinalIgnoreCase))
-            .ToList();
+        var resourceNames = _resourceNames;
 
-        if (resourceNames.Count == 0)
+        if (resourceNames.Length == 0)
         {
             throw new ApplicationException($"Missing localization resources for base name {_resourceBaseName}.");
         }
