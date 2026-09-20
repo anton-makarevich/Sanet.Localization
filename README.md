@@ -2,14 +2,14 @@
 
 Culture-invariant localization for .NET.
 
-[![NuGet](https://img.shields.io/nuget/v/Sanet.Localization.Core?label=Sanet.Localization.Core)](https://www.nuget.org/packages/Sanet.Localization.Core)
+[![NuGet](https://img.shields.io/nuget/v/Sanet.Localization?label=Sanet.Localization)](https://www.nuget.org/packages/Sanet.Localization)
 [![License](https://img.shields.io/github/license/anton-makarevich/Sanet.Localization)](https://github.com/anton-makarevich/Sanet.Localization/blob/main/LICENSE)
 
 ## Packages
 
 | Package | Description |
 |---|---|
-| [Sanet.Localization.Core](https://www.nuget.org/packages/Sanet.Localization.Core) | Culture-invariant localization engine: `ILocalizationService`, `Language` model, resource-agnostic reader. |
+| [Sanet.Localization](https://www.nuget.org/packages/Sanet.Localization) | Culture-invariant localization engine: `ILocalizationService`, `Language` model, resource-agnostic reader. |
 
 ## Overview
 
@@ -32,7 +32,7 @@ proven to work on WebAssembly and with invariant-globalization builds.
 ## Structure
 
 ```
-src/Sanet.Localization.Core/     # the engine (ILocalizationService, Language, reader, AddLocalization)
+src/Sanet.Localization/          # the engine (ILocalizationService, Language, reader, AddLocalization)
 tests/Sanet.Localization.Tests/  # xUnit v3 test suite
 ```
 
