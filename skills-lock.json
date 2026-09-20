@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "skills": {
+    "coverage-check": {
+      "source": "anton-makarevich/MakaMek",
+      "sourceType": "github",
+      "skillPath": "skills/coverage-check/SKILL.md",
+      "computedHash": "ba02454b51293c55160a89075e53a35b11d08e0b782f5241c24242aa8b6f5d6d"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+    },
+    "generate-unit-tests": {
+      "source": "anton-makarevich/MakaMek",
+      "sourceType": "github",
+      "skillPath": "skills/generate-unit-tests/SKILL.md",
+      "computedHash": "e6bdf8a9815f5041eba465147c4c73d3d7174dfe532a6926810b4dad0353d08b"
+    },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "computedHash": "9ea2a5de5ca2d717f913356de982fdc4fe27d28a300c16598cd43a4865491008"
+    },
+    "navigate-docs": {
+      "source": "anton-makarevich/MakaMek",
+      "sourceType": "github",
+      "skillPath": "skills/navigate-docs/SKILL.md",
+      "computedHash": "3efa9438e572ea445e8afaea3a537c8558d4c9dac7769fef1d71d8b57b5710ac"
+    },
+    "sanet-mvvm": {
+      "source": "anton-makarevich/MakaMek",
+      "sourceType": "github",
+      "skillPath": "skills/sanet-mvvm/SKILL.md",
+      "computedHash": "f987a4e9a3e9e05f7343944bbb5f0d890a38604b1686d16f40ecefca66ccc2cf"
+    },
+    "style-avalonia-app": {
+      "source": "anton-makarevich/MakaMek",
+      "sourceType": "github",
+      "skillPath": "skills/style-avalonia-app/SKILL.md",
+      "computedHash": "c4a6e24705e8d16ce94325c699ecf0e9a5756948e1ae57010bf155d9350b5d8b"
+    },
+    "tdd": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/tdd/SKILL.md",
+      "computedHash": "c1ed8cd854c64d4d226097255d3fa662dae4a758a1462fadd63cc10e413d88d7"
+    },
+    "triage": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/triage/SKILL.md",
+      "computedHash": "363ca4f1b97ca5227d41d3973178ab301d7c498ba41b466dfe30b6163f6d72b5"
+    }
+  }
+}
