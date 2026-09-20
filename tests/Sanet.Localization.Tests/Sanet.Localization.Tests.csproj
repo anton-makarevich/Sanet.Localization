@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Sanet.Localization.Core\Sanet.Localization.Core.csproj" />
+    <ProjectReference Include="..\..\src\Sanet.Localization\Sanet.Localization.csproj" />
   </ItemGroup>
 
 </Project>

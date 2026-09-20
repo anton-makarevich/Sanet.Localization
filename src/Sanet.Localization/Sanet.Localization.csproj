@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>Sanet.Localization</AssemblyName>
         <RootNamespace>Sanet.Localization</RootNamespace>
-        <PackageId>Sanet.Localization.Core</PackageId>
+        <PackageId>Sanet.Localization</PackageId>
         <Description>Culture-invariant localization engine for .NET: resource-agnostic ILocalizationService with language switching, aligned with the Sanet.MakaMek contract.</Description>
         <PackageTags>localization;resources;resx;culture-invariant;sanet</PackageTags>
         <PackageProjectUrl>https://github.com/anton-makarevich/Sanet.Localization</PackageProjectUrl>
