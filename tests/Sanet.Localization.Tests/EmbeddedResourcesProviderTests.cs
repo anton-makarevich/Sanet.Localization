@@ -16,9 +16,18 @@ public class EmbeddedResourcesProviderTests
     {
         var languages = _sut.GetAvailableLanguages();
 
-        languages.Count.ShouldBe(2);
+        languages.Count.ShouldBe(3);
         languages.ShouldContain(l => l.Code == "en" && l.IsDefault && l.Name == "english");
         languages.ShouldContain(l => l.Code == "be" && !l.IsDefault && l.Name == "беларуская");
+        languages.ShouldContain(l => l.Code == "fr" && !l.IsDefault && l.Name == null);
+    }
+
+    [Fact]
+    public void GetStrings_ReturnsLocalizedValues_ForLanguageWithoutName()
+    {
+        var strings = _sut.GetStrings(new Language("fr", false));
+
+        strings["TestKey"].ShouldBe("Bonjour");
     }
 
     [Fact]
