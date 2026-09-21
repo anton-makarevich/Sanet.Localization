@@ -44,7 +44,9 @@ public class LocalizationService : ILocalizationService
             return;
         }
 
-        _localizedStrings = _resourcesProvider.GetStrings(language);
+        _localizedStrings = language.IsDefault
+            ? _defaultLocalizedStrings
+            : _resourcesProvider.GetStrings(language);
         ActiveLanguage = language;
         LanguageChanged?.Invoke(this, EventArgs.Empty);
     }

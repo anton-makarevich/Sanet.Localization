@@ -17,8 +17,8 @@ public class EmbeddedResourcesProviderTests
         var languages = _sut.GetAvailableLanguages();
 
         languages.Count.ShouldBe(2);
-        languages.ShouldContain(l => l.Code == "en" && l.IsDefault);
-        languages.ShouldContain(l => l.Code == "be" && !l.IsDefault);
+        languages.ShouldContain(l => l.Code == "en" && l.IsDefault && l.Name == "english");
+        languages.ShouldContain(l => l.Code == "be" && !l.IsDefault && l.Name == "беларуская");
     }
 
     [Fact]

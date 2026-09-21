@@ -13,10 +13,14 @@ namespace Sanet.Localization.Providers;
 /// </summary>
 /// <remarks>
 /// Naming convention: the default language must be embedded as <c>{resourceBaseName}.resources</c>
-/// and every additional language as <c>{resourceBaseName}-{code}[-{name}].resources</c>.
+/// and every additional language as <c>{resourceBaseName}-{code}.resources</c>.
+/// The optional display name of a language is a regular key/value pair with the
+/// <c>language_name</c> key in the resource file itself.
 /// </remarks>
 public class EmbeddedResourcesProvider : ILocalizationResourcesProvider
 {
+    private const string LanguageNameKey = "language_name";
+
     private readonly Assembly _resourceAssembly;
     private readonly string _resourceBaseName;
     private readonly string _defaultResourceName;
@@ -52,7 +56,7 @@ public class EmbeddedResourcesProvider : ILocalizationResourcesProvider
             throw new ApplicationException("Missing default language resource.");
         }
 
-        var languages = new List<Language> { new("en", true, "english") };
+        var languages = new List<Language> { new("en", true, ReadLanguageName(_defaultResourceName)) };
 
         languages.AddRange(resourceNames
             .Where(l => l.StartsWith($"{_resourceBaseName}-", StringComparison.OrdinalIgnoreCase))
@@ -60,8 +64,7 @@ public class EmbeddedResourcesProvider : ILocalizationResourcesProvider
             {
                 var languageAttributes = l.Split('.').First(p => p.Contains('-')).Split('-');
                 var code = languageAttributes[1];
-                var name = languageAttributes.Length > 2 ? string.Join('-', languageAttributes[2..]) : null;
-                return new Language(code, false, name);
+                return new Language(code, false, ReadLanguageName(l));
             }));
 
         return languages;
@@ -74,7 +77,7 @@ public class EmbeddedResourcesProvider : ILocalizationResourcesProvider
             : $"{_resourceBaseName}-{language.Code}.resources";
 
         var matchingResourceName = _resourceNames.FirstOrDefault(resourceName =>
-            resourceName.StartsWith(resourceFileName, StringComparison.OrdinalIgnoreCase));
+            string.Equals(resourceName, resourceFileName, StringComparison.OrdinalIgnoreCase));
 
         if (matchingResourceName == null)
         {
@@ -99,5 +102,25 @@ public class EmbeddedResourcesProvider : ILocalizationResourcesProvider
         }
 
         return localizedStrings;
+    }
+
+    private string? ReadLanguageName(string resourceName)
+    {
+        using var resourceStream = _resourceAssembly.GetManifestResourceStream(resourceName);
+        if (resourceStream == null)
+        {
+            throw new MissingManifestResourceException($"Resource not found: {resourceName}");
+        }
+
+        using var resourceReader = new ResourceReader(resourceStream);
+        foreach (DictionaryEntry entry in resourceReader)
+        {
+            if (string.Equals(entry.Key.ToString(), LanguageNameKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return entry.Value?.ToString();
+            }
+        }
+
+        return null;
     }
 }
