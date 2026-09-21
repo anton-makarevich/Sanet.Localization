@@ -25,7 +25,7 @@ proven to work on WebAssembly and with invariant-globalization builds.
 ## How it works
 
 - Applications own their localization resources (`.resx` embedded at runtime, or any other source, including dynamic).
-- `ILocalizationResourcesProvider` abstracts resource management: it discovers available languages and loads their key/value strings. `EmbeddedResourcesProvider` (embedded `.resources`) is the first implementation; others (file system, network, non-`resx` formats) can be added later.
+- `ILocalizationResourcesProvider` abstracts resource management: it discovers available languages and loads their key/value strings. `EmbeddedResourcesProvider` (embedded `.resources`) is the first implementation; others (file system, network, non-`resx` formats) can be added later. It supports a reserved `language_name` key in resource files for the language display name.
 - `ILocalizationService.GetString(string key)` resolves the value for the active language, falling
   back to the default language and then to the raw key.
 - The active language is application-managed; listeners react to the `LanguageChanged` event.
