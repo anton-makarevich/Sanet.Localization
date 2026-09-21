@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.Resources;
+using NSubstitute;
 using Sanet.Localization.Providers;
 using Shouldly;
 
@@ -59,5 +61,70 @@ public class EmbeddedResourcesProviderTests
         var sut = new EmbeddedResourcesProvider(ResourceAssembly, "Missing.Base.Name");
 
         Should.Throw<ApplicationException>(() => sut.GetAvailableLanguages());
+    }
+
+    [Fact]
+    public void GetAvailableLanguages_ThrowsApplicationException_WhenDefaultResourceMissing()
+    {
+        var assembly = CreateResourceAssembly(
+            ("Sanet.Test.Dynamic.Resources.Strings-be.resources", ResourceStream(new Dictionary<string, string> { { "TestKey", "Test" } })));
+
+        var sut = new EmbeddedResourcesProvider(assembly, "Sanet.Test.Dynamic.Resources.Strings");
+
+        var ex = Should.Throw<ApplicationException>(() => sut.GetAvailableLanguages());
+        ex.Message.ShouldBe("Missing default language resource.");
+    }
+
+    [Fact]
+    public void GetStrings_ThrowsMissingManifestResourceException_WhenStreamIsNull()
+    {
+        var assembly = CreateResourceAssembly(
+            ("Sanet.Test.Dynamic.Resources.Strings.resources", ResourceStream(new Dictionary<string, string> { { "TestKey", "Hello" } })),
+            ("Sanet.Test.Dynamic.Resources.Strings-agr.resources", null));
+
+        var sut = new EmbeddedResourcesProvider(assembly, "Sanet.Test.Dynamic.Resources.Strings");
+
+        Should.Throw<MissingManifestResourceException>(() => sut.GetStrings(new Language("agr", false)));
+    }
+
+    [Fact]
+    public void GetAvailableLanguages_ThrowsMissingManifestResourceException_WhenLanguageNameStreamIsNull()
+    {
+        var assembly = CreateResourceAssembly(
+            ("Sanet.Test.Dynamic.Resources.Strings.resources", ResourceStream(new Dictionary<string, string> { { "TestKey", "Hello" } })),
+            ("Sanet.Test.Dynamic.Resources.Strings-agr.resources", null));
+
+        var sut = new EmbeddedResourcesProvider(assembly, "Sanet.Test.Dynamic.Resources.Strings");
+
+        Should.Throw<MissingManifestResourceException>(() => sut.GetAvailableLanguages());
+    }
+
+    private static Assembly CreateResourceAssembly(params (string Name, Func<Stream?>? StreamFactory)[] resources)
+    {
+        var assembly = Substitute.For<Assembly>();
+        assembly.GetManifestResourceNames().Returns(resources.Select(r => r.Name).ToArray());
+        assembly
+            .GetManifestResourceStream(Arg.Any<string>())
+            .Returns(callInfo => resources.FirstOrDefault(r => r.Name == callInfo.Arg<string>()).StreamFactory?.Invoke());
+        return assembly;
+    }
+
+    private static Func<Stream?>? ResourceStream(Dictionary<string, string> entries)
+    {
+        return () =>
+        {
+            using var tempStream = new MemoryStream();
+            using (var writer = new ResourceWriter(tempStream))
+            {
+                foreach (var (key, value) in entries)
+                {
+                    writer.AddResource(key, value);
+                }
+            }
+
+            var stream = new MemoryStream(tempStream.ToArray());
+            stream.Position = 0;
+            return stream;
+        };
     }
 }
