@@ -39,13 +39,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
   </resheader>
-  <data name="language_name" xml:space="preserve">
-    <value>english</value>
-  </data>
   <data name="TestKey" xml:space="preserve">
-    <value>Hello</value>
-  </data>
-  <data name="DefaultOnlyKey" xml:space="preserve">
-    <value>Only in default</value>
+    <value>Bonjour</value>
   </data>
 </root>
