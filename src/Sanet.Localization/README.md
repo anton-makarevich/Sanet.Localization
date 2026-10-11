@@ -27,3 +27,34 @@ Resource naming convention:
 Each file may define a `language_name` key holding the language's display name, e.g. `<data name="language_name"><value>беларуская</value></data>`.
 
 To supply resources from a custom source, implement `ILocalizationResourcesProvider` and pass it to `AddLocalization`.
+
+
+## Multiple resource sources
+
+`CompositeResourcesProvider` (in `Providers/`) combines several `ILocalizationResourcesProvider` instances — different resource families in one assembly, resources of referenced assemblies, or a mix of embedded and custom providers — so that strings for one language can come from several sets:
+
+```csharp
+// Two resource families in one assembly (e.g. Strings and Errors)
+services.AddLocalization(new CompositeResourcesProvider(
+    new EmbeddedResourcesProvider(typeof(SomeAppType).Assembly, "MyApp.Resources.Strings"),
+    new EmbeddedResourcesProvider(typeof(SomeAppType).Assembly, "MyApp.Resources.Errors")));
+
+// Application resources overriding resources of a referenced shared assembly
+services.AddLocalization(new CompositeResourcesProvider(
+    new EmbeddedResourcesProvider(typeof(SharedMarker).Assembly, "Shared.Resources.Strings"),
+    new EmbeddedResourcesProvider(typeof(AppMarker).Assembly, "MyApp.Resources.Strings")));
+
+// Embedded resources combined with a custom provider (later provider wins on key conflicts)
+services.AddLocalization(new CompositeResourcesProvider(
+    new EmbeddedResourcesProvider(typeof(SomeAppType).Assembly, "MyApp.Resources.Strings"),
+    new MyCustomResourcesProvider()));
+```
+
+Composition rules:
+- **Priority:** input order defines priority, from lowest to highest. Later providers override duplicate keys and duplicate display names, so an extending application goes last.
+- **Languages:** the `LanguageDiscoveryPolicy` controls which languages are exposed — `Union` (default: every code advertised by any provider), `Intersection` (only codes advertised by every provider) or `PrimaryOnly` (only the codes of the first provider). Languages are matched by code, not by record equality.
+- **Default language:** all providers must agree on the default language code; otherwise an `ApplicationException` is thrown.
+- **Missing language:** a provider that does not advertise the requested language is skipped for that language; keys of that provider are still covered by the default-language fallback of `GetString`.
+- **Fallback:** key resolution is unchanged — active language, then default language, then the raw key.
+
+Note that each `EmbeddedResourcesProvider` reads only the resources of the assembly and base name supplied at construction; no assembly scanning occurs.
