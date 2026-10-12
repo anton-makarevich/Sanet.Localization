@@ -64,7 +64,7 @@ public class CompositeResourcesProvider : ILocalizationResourcesProvider
     }
 
     /// <inheritdoc/>
-    public List<Language> GetAvailableLanguages() => _snapshot.Value.ExposedLanguages;
+    public List<Language> GetAvailableLanguages() => [.. _snapshot.Value.ExposedLanguages];
 
     /// <inheritdoc/>
     public Dictionary<string, string> GetStrings(Language language)
