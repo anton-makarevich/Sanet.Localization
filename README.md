@@ -26,6 +26,7 @@ proven to work on WebAssembly and with invariant-globalization builds.
 
 - Applications own their localization resources (`.resx` embedded at runtime, or any other source, including dynamic).
 - `ILocalizationResourcesProvider` abstracts resource management: it discovers available languages and loads their key/value strings. `EmbeddedResourcesProvider` (embedded `.resources`) is the first implementation; others (file system, network, non-`resx` formats) can be added later. It supports a reserved `language_name` key in resource files for the language display name.
+- Multiple resource sources can be combined with `CompositeResourcesProvider` — e.g. an application's strings overriding those of a referenced assembly, or several resource families in one assembly (see the [package README](src/Sanet.Localization/README.md#multiple-resource-sources)).
 - `ILocalizationService.GetString(string key)` resolves the value for the active language, falling
   back to the default language and then to the raw key.
 - The active language is application-managed; listeners react to the `LanguageChanged` event.
@@ -35,7 +36,8 @@ proven to work on WebAssembly and with invariant-globalization builds.
 ```
 src/Sanet.Localization/          # the engine (ILocalizationService, LocalizationService,
                                  # Language, AddLocalization)
-src/Sanet.Localization/Providers # ILocalizationResourcesProvider, EmbeddedResourcesProvider
+src/Sanet.Localization/Providers # ILocalizationResourcesProvider, EmbeddedResourcesProvider,
+                                 # CompositeResourcesProvider, LanguageDiscoveryPolicy
 tests/Sanet.Localization.Tests/  # xUnit v3 test suite
 ```
 
