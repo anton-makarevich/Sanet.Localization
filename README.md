@@ -43,7 +43,7 @@ tests/Sanet.Localization.Tests/  # xUnit v3 test suite
 
 ## Prerequisites
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (pinned in `global.json`)
+- [.NET 11 SDK](https://dotnet.microsoft.com/download/dotnet/11.0) (pinned in `global.json`)
 - [mise](https://mise.jdx.dev) for repo tooling and task management
 
 ## Common tasks
